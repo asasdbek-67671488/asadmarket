@@ -5,13 +5,20 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.oldmarket.R;
-import com.oldmarket.model.AppItem;
-import com.oldmarket.net.Api;
-import com.oldmarket.net.Http;
-import com.oldmarket.util.ImageLoader;
-import com.oldmarket.util.LocaleHelper;
-import com.oldmarket.util.Prefs;
+import com.asadmarket.oldmarket.R;
+import com.asadmarket.oldmarket.model.AppItem;
+import com.asadmarket.oldmarket.net.Api;
+import com.asadmarket.oldmarket.net.Http;
+import com.asadmarket.oldmarket.ui.AppDetailActivity;
+import com.asadmarket.oldmarket.ui.AppListAdapter;
+import com.asadmarket.oldmarket.ui.CategoryListActivity;
+import com.asadmarket.oldmarket.ui.LoginActivity;
+import com.asadmarket.oldmarket.ui.ProfileActivity;
+import com.asadmarket.oldmarket.ui.SearchActivity;
+import com.asadmarket.oldmarket.ui.SettingsActivity;
+import com.asadmarket.oldmarket.util.ImageLoader;
+import com.asadmarket.oldmarket.util.LocaleHelper;
+import com.asadmarket.oldmarket.util.Prefs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,7 +43,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
     private ListView list;
-    private AppListAdapter adapter;
+    private com.asadmarket.oldmarket.ui.AppListAdapter adapter;
     private ArrayList<AppItem> items = new ArrayList<AppItem>();
 
     private ImageView bannerImage;
@@ -77,7 +84,7 @@ public class MainActivity extends Activity {
                 int idx = position - list.getHeaderViewsCount();
                 if (idx < 0 || idx >= items.size()) return;
                 AppItem it = items.get(idx);
-                Intent i = new Intent(MainActivity.this, AppDetailActivity.class);
+                Intent i = new Intent(com.asadmarket.oldmarket.ui.MainActivity.this, AppDetailActivity.class);
                 i.putExtra("app_id", it.id);
                 startActivity(i);
             }
@@ -85,13 +92,13 @@ public class MainActivity extends Activity {
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                startActivity(new Intent(com.asadmarket.oldmarket.ui.MainActivity.this, SearchActivity.class));
             }
         });
 
         btnApps.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, CategoryListActivity.class);
+                Intent i = new Intent(com.asadmarket.oldmarket.ui.MainActivity.this, CategoryListActivity.class);
                 i.putExtra("is_game", false);
                 i.putExtra("title", getString(R.string.apps));
                 startActivity(i);
@@ -100,7 +107,7 @@ public class MainActivity extends Activity {
 
         btnGames.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, CategoryListActivity.class);
+                Intent i = new Intent(com.asadmarket.oldmarket.ui.MainActivity.this, CategoryListActivity.class);
                 i.putExtra("is_game", true);
                 i.putExtra("title", getString(R.string.games));
                 startActivity(i);
@@ -167,7 +174,7 @@ public class MainActivity extends Activity {
     private void loadBanners() {
         new AsyncTask<Void, Void, String>() {
             protected String doInBackground(Void... v) {
-                try { return Http.getString(Api.baseUrl(MainActivity.this) + "/api/banners"); }
+                try { return Http.getString(Api.baseUrl(com.asadmarket.oldmarket.ui.MainActivity.this) + "/api/banners"); }
                 catch (Exception e) { return null; }
             }
             protected void onPostExecute(String s) {
@@ -193,7 +200,7 @@ public class MainActivity extends Activity {
                     String img = b.optString("image", "");
                     currentBannerUrl = b.optString("url", "");
                     if (img != null && img.length() > 0) {
-                        ImageLoader.loadBanner(MainActivity.this, Api.bannerUrl(MainActivity.this, img), bannerImage, R.drawable.banner_placeholder);
+                        ImageLoader.loadBanner(com.asadmarket.oldmarket.ui.MainActivity.this, Api.bannerUrl(com.asadmarket.oldmarket.ui.MainActivity.this, img), bannerImage, R.drawable.banner_placeholder);
                     }
                     bannerIdx++;
                 } catch (Exception e) { }
@@ -223,7 +230,7 @@ public class MainActivity extends Activity {
             protected void onPostExecute(ArrayList<AppItem> out) {
                 showLoading(false);
                 if (out == null) {
-                    Toast.makeText(MainActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(com.asadmarket.oldmarket.ui.MainActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 items.clear();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.oldmarket"
+    package="com.asadmarket.oldmarket"
     android:versionCode="14"
     android:versionName="2.3.1">
 

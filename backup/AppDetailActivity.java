@@ -6,14 +6,16 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.oldmarket.R;
-import com.oldmarket.net.Api;
-import com.oldmarket.net.Http;
-import com.oldmarket.service.DownloadService;
-import com.oldmarket.util.ImageLoader;
-import com.oldmarket.util.LocaleHelper;
-import com.oldmarket.util.Prefs;
-import com.oldmarket.util.AndroidVersions;
+import com.asadmarket.oldmarket.R;
+import com.asadmarket.oldmarket.net.Api;
+import com.asadmarket.oldmarket.net.Http;
+import com.asadmarket.oldmarket.service.DownloadService;
+import com.asadmarket.oldmarket.ui.LoginActivity;
+import com.asadmarket.oldmarket.ui.UserProfileActivity;
+import com.asadmarket.oldmarket.util.ImageLoader;
+import com.asadmarket.oldmarket.util.LocaleHelper;
+import com.asadmarket.oldmarket.util.Prefs;
+import com.asadmarket.oldmarket.util.AndroidVersions;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -137,7 +139,7 @@ public class AppDetailActivity extends Activity {
                 if (idx < 0 || idx >= reviews.size()) return;
                 ReviewItem r = reviews.get(idx);
                 if (r.userId > 0) {
-                    Intent i = new Intent(AppDetailActivity.this, UserProfileActivity.class);
+                    Intent i = new Intent(com.asadmarket.oldmarket.ui.AppDetailActivity.this, UserProfileActivity.class);
                     i.putExtra("user_id", r.userId);
                     startActivity(i);
                 }
@@ -156,8 +158,8 @@ public class AppDetailActivity extends Activity {
 
         btnAddReview.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!Prefs.isLoggedIn(AppDetailActivity.this)) {
-                    startActivity(new Intent(AppDetailActivity.this, LoginActivity.class));
+                if (!Prefs.isLoggedIn(com.asadmarket.oldmarket.ui.AppDetailActivity.this)) {
+                    startActivity(new Intent(com.asadmarket.oldmarket.ui.AppDetailActivity.this, LoginActivity.class));
                     return;
                 }
                 showAddReviewDialog();
@@ -188,7 +190,7 @@ public class AppDetailActivity extends Activity {
         new AsyncTask<Void, Void, JSONObject>() {
             protected JSONObject doInBackground(Void... v) {
                 try {
-                    String url = Api.baseUrl(AppDetailActivity.this) + "/api/app/" + appId;
+                    String url = Api.baseUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this) + "/api/app/" + appId;
                     String s = Http.getString(url);
                     if (s == null) return null;
                     return new JSONObject(s);
@@ -214,7 +216,7 @@ public class AppDetailActivity extends Activity {
                         + "   Version: " + version);
 
                 if (icon != null && icon.length() > 0) {
-                    ImageLoader.load(AppDetailActivity.this, Api.iconUrl(AppDetailActivity.this, icon),
+                    ImageLoader.load(com.asadmarket.oldmarket.ui.AppDetailActivity.this, Api.iconUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this, icon),
                             imgIcon, R.drawable.icon_placeholder);
                 } else {
                     imgIcon.setImageResource(R.drawable.icon_placeholder);
@@ -239,7 +241,7 @@ public class AppDetailActivity extends Activity {
         new AsyncTask<Void, Void, JSONArray>() {
             protected JSONArray doInBackground(Void... v) {
                 try {
-                    String url = Api.baseUrl(AppDetailActivity.this) + "/api/app/" + appId + "/screenshots";
+                    String url = Api.baseUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this) + "/api/app/" + appId + "/screenshots";
                     String s = Http.getString(url);
                     if (s == null) return null;
                     return new JSONArray(s);
@@ -260,14 +262,14 @@ public class AppDetailActivity extends Activity {
                     String file = arr.optString(i, "");
                     if (file == null || file.length() == 0) continue;
 
-                    ImageView iv = new ImageView(AppDetailActivity.this);
+                    ImageView iv = new ImageView(com.asadmarket.oldmarket.ui.AppDetailActivity.this);
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(240, 400);
                     lp.rightMargin = 10;
                     iv.setLayoutParams(lp);
                     iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     screensContainer.addView(iv);
 
-                    ImageLoader.load(AppDetailActivity.this, Api.screenshotUrl(AppDetailActivity.this, file),
+                    ImageLoader.load(com.asadmarket.oldmarket.ui.AppDetailActivity.this, Api.screenshotUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this, file),
                             iv, R.drawable.banner_placeholder);
                 }
             }
@@ -279,8 +281,8 @@ public class AppDetailActivity extends Activity {
         new AsyncTask<Void, Void, Object>() {
             protected Object doInBackground(Void... v) {
                 try {
-                    int viewerId = Prefs.getUserId(AppDetailActivity.this);
-                    String url = Api.appReviewsUrl(AppDetailActivity.this, appId, viewerId);
+                    int viewerId = Prefs.getUserId(com.asadmarket.oldmarket.ui.AppDetailActivity.this);
+                    String url = Api.appReviewsUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this, appId, viewerId);
                     String s = Http.getString(url);
                     if (s == null) return "null response";
 
@@ -368,7 +370,7 @@ public class AppDetailActivity extends Activity {
                 int rating = spRating.getSelectedItemPosition() + 1;
 
                 if (text.length() == 0) {
-                    Toast.makeText(AppDetailActivity.this, "Write review text", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(com.asadmarket.oldmarket.ui.AppDetailActivity.this, "Write review text", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -393,7 +395,7 @@ public class AppDetailActivity extends Activity {
         new AsyncTask<Void, Void, String>() {
             protected String doInBackground(Void... v) {
                 try {
-                    String url = Api.baseUrl(AppDetailActivity.this) + "/api/app/" + appId + "/review";
+                    String url = Api.baseUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this) + "/api/app/" + appId + "/review";
 
                     JSONObject o = new JSONObject();
                     o.put("user_id", uid);
@@ -435,7 +437,7 @@ public class AppDetailActivity extends Activity {
                 // обновить список
                 loadReviews();
 
-                Toast.makeText(AppDetailActivity.this, "Sent", Toast.LENGTH_SHORT).show();
+                Toast.makeText(com.asadmarket.oldmarket.ui.AppDetailActivity.this, "Sent", Toast.LENGTH_SHORT).show();
             }
         }.execute();
     }
@@ -450,7 +452,7 @@ public class AppDetailActivity extends Activity {
         new AsyncTask<Void, Void, Object>() {
             protected Object doInBackground(Void... v) {
                 try {
-                    String s = Http.getString(Api.reviewCommentsUrl(AppDetailActivity.this, reviewId));
+                    String s = Http.getString(Api.reviewCommentsUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this, reviewId));
                     if (s == null) return "null response";
                     return new JSONArray(s);
                 } catch (Exception e) {
@@ -481,14 +483,14 @@ public class AppDetailActivity extends Activity {
                     items[i] = u + ": " + t + (d.length() > 0 ? ("  (" + d + ")") : "");
                 }
 
-                AlertDialog.Builder b = new AlertDialog.Builder(AppDetailActivity.this);
+                AlertDialog.Builder b = new AlertDialog.Builder(com.asadmarket.oldmarket.ui.AppDetailActivity.this);
                 b.setTitle("Comments");
                 b.setItems(items, null);
 
                 b.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if (!Prefs.isLoggedIn(AppDetailActivity.this)) {
-                            startActivity(new Intent(AppDetailActivity.this, LoginActivity.class));
+                        if (!Prefs.isLoggedIn(com.asadmarket.oldmarket.ui.AppDetailActivity.this)) {
+                            startActivity(new Intent(com.asadmarket.oldmarket.ui.AppDetailActivity.this, LoginActivity.class));
                             return;
                         }
                         showAddCommentDialog(reviewId);
@@ -529,7 +531,7 @@ public class AppDetailActivity extends Activity {
                     JSONObject o = new JSONObject();
                     o.put("user_id", uid);
                     o.put("text", text);
-                    return Http.postJson(Api.reviewAddCommentUrl(AppDetailActivity.this, reviewId), o.toString());
+                    return Http.postJson(Api.reviewAddCommentUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this, reviewId), o.toString());
                 } catch (Exception e) { return null; }
             }
             protected void onPostExecute(String s) {
@@ -550,7 +552,7 @@ public class AppDetailActivity extends Activity {
                     JSONObject o = new JSONObject();
                     o.put("user_id", uid);
                     o.put("value", value);
-                    return Http.postJson(Api.reviewReactionUrl(AppDetailActivity.this, reviewId), o.toString());
+                    return Http.postJson(Api.reviewReactionUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this, reviewId), o.toString());
                 } catch (Exception e) { return null; }
             }
             protected void onPostExecute(String s) {
@@ -569,7 +571,7 @@ public class AppDetailActivity extends Activity {
                 try {
                     JSONObject o = new JSONObject();
                     o.put("user_id", uid);
-                    return Http.postJson(Api.reviewReportUrl(AppDetailActivity.this, reviewId), o.toString());
+                    return Http.postJson(Api.reviewReportUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this, reviewId), o.toString());
                 } catch (Exception e) { return null; }
             }
             protected void onPostExecute(String s) {
@@ -591,7 +593,7 @@ public class AppDetailActivity extends Activity {
         new AsyncTask<Void, Void, Object>() {
             protected Object doInBackground(Void... v) {
                 try {
-                    String s = Http.getString(Api.appVersionsUrl(AppDetailActivity.this, appId));
+                    String s = Http.getString(Api.appVersionsUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this, appId));
                     if (s == null) return "null response";
                     return new JSONArray(s);
                 } catch (Exception e) {
@@ -644,7 +646,7 @@ public class AppDetailActivity extends Activity {
 
                 final String[] labels = versList.toArray(new String[versList.size()]);
 
-                new AlertDialog.Builder(AppDetailActivity.this)
+                new AlertDialog.Builder(com.asadmarket.oldmarket.ui.AppDetailActivity.this)
                     .setTitle("Select version")
                     .setItems(labels, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface d, int which) {
@@ -682,7 +684,7 @@ public class AppDetailActivity extends Activity {
         dlDialog.setCancelable(false);
         dlDialog.setButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Intent i = new Intent(AppDetailActivity.this, DownloadService.class);
+                Intent i = new Intent(com.asadmarket.oldmarket.ui.AppDetailActivity.this, DownloadService.class);
                 i.setAction(DownloadService.ACTION_CANCEL);
                 i.putExtra("app_id", appId);
                 startService(i);
@@ -777,7 +779,7 @@ public class AppDetailActivity extends Activity {
 
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = LayoutInflater.from(AppDetailActivity.this)
+                convertView = LayoutInflater.from(com.asadmarket.oldmarket.ui.AppDetailActivity.this)
                         .inflate(R.layout.list_item_review, parent, false);
             }
 
@@ -788,7 +790,7 @@ public class AppDetailActivity extends Activity {
             View.OnClickListener openProfileClick = new View.OnClickListener() {
                 public void onClick(View v) {
                     if (r.userId > 0) {
-                        Intent i = new Intent(AppDetailActivity.this, UserProfileActivity.class);
+                        Intent i = new Intent(com.asadmarket.oldmarket.ui.AppDetailActivity.this, UserProfileActivity.class);
                         i.putExtra("user_id", r.userId);
                         startActivity(i);
                     }
@@ -817,7 +819,7 @@ public class AppDetailActivity extends Activity {
             }
             txtMeta.setText(meta);
 
-            ImageLoader.load(AppDetailActivity.this, Api.avatarUrl(AppDetailActivity.this, r.avatar),
+            ImageLoader.load(com.asadmarket.oldmarket.ui.AppDetailActivity.this, Api.avatarUrl(com.asadmarket.oldmarket.ui.AppDetailActivity.this, r.avatar),
                     imgUser, R.drawable.icon_placeholder);
 
             btnLike.setText("   " + r.likes);

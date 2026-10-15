@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar">
 
-        <activity android:name=".ui.MainActivity"
+        <activity android:name="com.asadmarket.oldmarket.ui.MainActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,17 +25,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.SearchActivity" />
-        <activity android:name=".ui.CategoryListActivity" />
-        <activity android:name=".ui.CategoryAppsActivity" />
-        <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.AppDetailActivity" />
-        <service android:name=".service.DownloadService" />
-        <service android:name=".service.UpdateCheckService" />
-        <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.ProfileActivity" />
-		<activity android:name=".ui.UserProfileActivity" />
-		<activity android:name=".ui.DownloadsActivity" />
+        <activity android:name="com.asadmarket.oldmarket.ui.SearchActivity" />
+        <activity android:name="com.asadmarket.oldmarket.ui.CategoryListActivity" />
+        <activity android:name="com.asadmarket.oldmarket.ui.CategoryAppsActivity" />
+        <activity android:name="com.asadmarket.oldmarket.ui.SettingsActivity" />
+        <activity android:name="com.asadmarket.oldmarket.ui.AppDetailActivity" />
+        <service android:name="com.asadmarket.oldmarket.service.DownloadService" />
+        <service android:name="com.asadmarket.oldmarket.service.UpdateCheckService" />
+        <activity android:name="com.asadmarket.oldmarket.ui.LoginActivity" />
+        <activity android:name="com.asadmarket.oldmarket.ui.ProfileActivity" />
+		<activity android:name="com.asadmarket.oldmarket.ui.UserProfileActivity" />
+		<activity android:name="com.asadmarket.oldmarket.ui.DownloadsActivity" />
     </application>
 
 </manifest>

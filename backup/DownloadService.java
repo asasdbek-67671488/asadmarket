@@ -7,8 +7,8 @@ import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.oldmarket.R;
-import com.oldmarket.ui.MainActivity;
+import com.asadmarket.oldmarket.R;
+import com.asadmarket.oldmarket.ui.MainActivity;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -74,7 +74,7 @@ public class DownloadService extends Service {
         return new File(dir, fileName);
     }
 
-    // Создание уведомления без Notification.Builder (чтобы не было Lint "requires API 11")
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ Notification.Builder (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ Lint "requires API 11")
     @SuppressWarnings("deprecation")
     private Notification makeNotification(Context c, String title, String text, boolean ongoing) {
         long when = System.currentTimeMillis();
@@ -90,7 +90,7 @@ public class DownloadService extends Service {
 
         PendingIntent pi = PendingIntent.getActivity(c, 0, open, 0);
 
-        // setLatestEventInfo вырезан из SDK stubs на новых API, поэтому вызываем через reflection
+        // setLatestEventInfo пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ SDK stubs пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ API, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ reflection
         try {
             Method m = n.getClass().getMethod(
                     "setLatestEventInfo",
@@ -101,7 +101,7 @@ public class DownloadService extends Service {
             );
             m.invoke(n, c, title, text, pi);
         } catch (Exception e) {
-            // Если вдруг не получилось — просто не заполним контент, но не упадём
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         }
 
         return n;
@@ -162,7 +162,7 @@ public class DownloadService extends Service {
 
                 int percent = (len > 0) ? (int) (total * 100 / len) : 0;
 
-                // не даём прогрессу идти назад
+                // пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                 if (percent < lastPercent) {
                     percent = lastPercent;
                 } else {
@@ -179,7 +179,7 @@ public class DownloadService extends Service {
                     lastUiSpeed = speed;
                 }
 
-                // обновлять UI/уведомление не чаще чем раз в 800 мс
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ UI/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ 800 пїЅпїЅ
                 if ((now - lastNotifyTime) >= 800 || percent >= 100) {
                     lastNotifyTime = now;
 
@@ -190,7 +190,7 @@ public class DownloadService extends Service {
                         speedText = (lastUiSpeed / 1024) + " KB/s";
                     }
 
-                    String text = percent + "%  •  " + speedText;
+                    String text = percent + "%  пїЅ  " + speedText;
                     notifyProgress(nm, notifId, getString(R.string.downloading), text, true);
 
                     Intent p = new Intent(ACTION_PROGRESS);
@@ -201,7 +201,7 @@ public class DownloadService extends Service {
                     sendBroadcast(p);
                 }
 
-                // пересчитывать скорость окна раз в 1 секунду
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ 1 пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 if (dt >= 1000) {
                     speedWindowStartTime = now;
                     speedWindowStartBytes = total;

@@ -6,11 +6,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.oldmarket.R;
-import com.oldmarket.model.AppItem;
-import com.oldmarket.net.Api;
-import com.oldmarket.net.Http;
-import com.oldmarket.util.LocaleHelper;
+import com.asadmarket.oldmarket.R;
+import com.asadmarket.oldmarket.model.AppItem;
+import com.asadmarket.oldmarket.net.Api;
+import com.asadmarket.oldmarket.net.Http;
+import com.asadmarket.oldmarket.ui.AppDetailActivity;
+import com.asadmarket.oldmarket.ui.AppListAdapter;
+import com.asadmarket.oldmarket.util.LocaleHelper;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,7 +34,7 @@ public class SearchActivity extends Activity {
     private ImageButton btn;
     private ListView list;
     private ArrayList<AppItem> data = new ArrayList<AppItem>();
-    private AppListAdapter adapter;
+    private com.asadmarket.oldmarket.ui.AppListAdapter adapter;
 
     protected void onCreate(Bundle b) {
         super.onCreate(b);
@@ -49,7 +51,7 @@ public class SearchActivity extends Activity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AppItem it = data.get(position);
-                Intent i = new Intent(SearchActivity.this, AppDetailActivity.class);
+                Intent i = new Intent(com.asadmarket.oldmarket.ui.SearchActivity.this, AppDetailActivity.class);
                 i.putExtra("app_id", it.id);
                 startActivity(i);
             }
@@ -80,7 +82,7 @@ public class SearchActivity extends Activity {
         	protected Object doInBackground(Void... v) {
         	    String url = null;
         	    try {
-        	        url = Api.baseUrl(SearchActivity.this)
+        	        url = Api.baseUrl(com.asadmarket.oldmarket.ui.SearchActivity.this)
         	                + "/api/apps/search?q=" + java.net.URLEncoder.encode(q, "UTF-8")
         	                + "&limit=200&offset=0";
 
@@ -111,7 +113,7 @@ public class SearchActivity extends Activity {
             @SuppressWarnings("unchecked")
             protected void onPostExecute(Object out) {
                 if (out instanceof String) {
-                    Toast.makeText(SearchActivity.this, "Search error: " + out, Toast.LENGTH_LONG).show();
+                    Toast.makeText(com.asadmarket.oldmarket.ui.SearchActivity.this, "Search error: " + out, Toast.LENGTH_LONG).show();
                     return;
                 }
                 List<AppItem> listOut = (List<AppItem>) out;
@@ -120,7 +122,7 @@ public class SearchActivity extends Activity {
                 data.addAll(listOut);
                 adapter.notifyDataSetChanged();
 
-                if (listOut.size() == 0) Toast.makeText(SearchActivity.this, R.string.nothing_found, Toast.LENGTH_SHORT).show();
+                if (listOut.size() == 0) Toast.makeText(com.asadmarket.oldmarket.ui.SearchActivity.this, R.string.nothing_found, Toast.LENGTH_SHORT).show();
             }
         }.execute();
     }

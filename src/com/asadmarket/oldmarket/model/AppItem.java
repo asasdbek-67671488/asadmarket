@@ -20,3 +20,6 @@ public class AppItem {
 
     public static String safe(String s) { return s == null ? "" : s; }
 }
+
+public String apkUrl = "";
+public java.util.ArrayList<String> screenshots = new java.util.ArrayList<>();

@@ -18,8 +18,11 @@ public class AppItem {
     public int versionCode;
     public int installedVersionCode;
 
-    public static String safe(String s) { return s == null ? "" : s; }
-}
+    public String apkUrl = "";
+    public java.util.ArrayList<String> screenshots =
+            new java.util.ArrayList<String>();
 
-public String apkUrl = "";
-public java.util.ArrayList<String> screenshots = new java.util.ArrayList<>();
+    public static String safe(String s) {
+        return s == null ? "" : s;
+    }
+}

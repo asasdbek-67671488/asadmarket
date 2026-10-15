@@ -10,7 +10,7 @@ public class Api {
 	    if (host == null) host = "";
 	    host = host.trim();
 
-	    if (host.length() == 0) host = "94.156.115.120";
+	    if (host.length() == 0) host = "https://raw.githubusercontent.com/asasdbek-67671488/asadmarket-erver/main/apps.json";
 
 	    
 	    while (host.endsWith("/")) host = host.substring(0, host.length() - 1);

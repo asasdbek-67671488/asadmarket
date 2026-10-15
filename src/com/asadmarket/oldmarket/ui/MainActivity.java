@@ -235,38 +235,54 @@ public class MainActivity extends Activity {
     }
 
     private void loadTopContent() {
-        showLoading(true);
-        final int deviceApi = Build.VERSION.SDK_INT;
-        new AsyncTask<Void, Void, ArrayList<AppItem>>() {
-            ArrayList<AppItem> promoSource = new ArrayList<AppItem>();
-            protected ArrayList<AppItem> doInBackground(Void... v) {
-                ArrayList<AppItem> out = new ArrayList<AppItem>();
-                loadEndpoint("/api/top-apps", false, deviceApi, out);
-                loadEndpoint("/api/top-games", true, deviceApi, out);
-                // wider source for promo
-                loadEndpoint("/api/apps?is_game=0", false, deviceApi, promoSource);
-                loadEndpoint("/api/apps?is_game=1", true, deviceApi, promoSource);
-                return out;
+    showLoading(true);
+    final int deviceApi = Build.VERSION.SDK_INT;
+
+    new AsyncTask<Void, Void, ArrayList<AppItem>>() {
+        ArrayList<AppItem> promoSource = new ArrayList<AppItem>();
+
+        protected ArrayList<AppItem> doInBackground(Void... v) {
+            ArrayList<AppItem> out = new ArrayList<AppItem>();
+
+            loadEndpoint("/api/top-apps", false, deviceApi, out);
+            loadEndpoint("/api/top-games", true, deviceApi, out);
+
+            loadEndpoint("/api/apps?is_game=0", false, deviceApi, promoSource);
+            loadEndpoint("/api/apps?is_game=1", true, deviceApi, promoSource);
+
+            return out;
+        }
+
+        protected void onPostExecute(ArrayList<AppItem> out) {
+            showLoading(false);
+
+            if (out == null) {
+                Toast.makeText(
+                    MainActivity.this,
+                    R.string.error_network,
+                    Toast.LENGTH_SHORT
+                ).show();
+                return;
             }
-            protected void onPostExecute(ArrayList<AppItem> out) {
-                showLoading(false);
-                if (out == null) {
-                    Toast.makeText(MainActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                items.clear();
-                items.addAll(out);
-                CACHE_ITEMS.clear();
-                CACHE_ITEMS.addAll(out);
-                CACHE_PROMO_SOURCE.clear();
-                CACHE_PROMO_SOURCE.addAll(promoSource);
-                CACHE_TIME = System.currentTimeMillis();
-                adapter.refreshInstalledPackages();
-                adapter.notifyDataSetChanged();
-                bindPromo(promoSource);
-            }
-        }.execute();
-    }
+
+            items.clear();
+            items.addAll(out);
+
+            CACHE_ITEMS.clear();
+            CACHE_ITEMS.addAll(out);
+
+            CACHE_PROMO_SOURCE.clear();
+            CACHE_PROMO_SOURCE.addAll(promoSource);
+
+            CACHE_TIME = System.currentTimeMillis();
+
+            adapter.refreshInstalledPackages();
+            adapter.notifyDataSetChanged();
+
+            bindPromo(promoSource);
+        }
+    }.execute();
+}
 
     private void loadEndpoint(String endpoint, boolean isGame, int deviceApi, ArrayList<AppItem> out) {
         try {

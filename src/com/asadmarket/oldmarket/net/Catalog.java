@@ -18,10 +18,10 @@ import java.util.ArrayList;
 public class Catalog {
 
 public static final String CATALOG_URL =
-    "https://raw.githubusercontent.com/asasdbek-67671488/asadmarket/main/apps.json";
+    "https://raw.githubusercontent.com/asasdbek-67671488/asadmarket-server/main/apps.json";
 
 public static final String RAW_BASE =
-    "https://raw.githubusercontent.com/asasdbek-67671488/asadmarket/main/";
+    "https://raw.githubusercontent.com/asasdbek-67671488/asadmarket-erver/main/";
 
 private static final String PREFS = "static_catalog";
 private static final String CACHE_KEY = "apps_json";
@@ -134,7 +134,9 @@ public static ArrayList<AppItem> load(Context context)
         app.description = object.optString("description", "");
         app.icon = object.optString("icon", "");
         app.apkUrl = object.optString(
-            "apk_url", object.optString("download_url", ""));
+        "downloadUrl",
+        object.optString("apk_url", object.optString("download_url", ""))
+        );
 
         app.api = object.optInt(
             "api", object.optInt("min_api", 1));
